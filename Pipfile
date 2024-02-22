@@ -9,6 +9,7 @@ requests = "*"
 sqlalchemy = "*"
 alembic = "*"
 asyncpg = "*"
+pydantic-settings = "*"
 
 [dev-packages]
 
