@@ -7,7 +7,7 @@ DB_USER = 'postgres'
 DB_PASS = 'SD1582i'
 DB_NAME = 'postgres'
 
-DATABASE_URL = f'postresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+DATABASE_URL = f'postgresql+asyncpg://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 
 engine = create_async_engine(DATABASE_URL)
 
