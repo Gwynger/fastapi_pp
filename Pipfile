@@ -9,6 +9,7 @@ sqlalchemy = "*"
 alembic = "*"
 asyncpg = "*"
 passlib = "*"
+python-jose = "*"
 
 [dev-packages]
 
