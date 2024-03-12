@@ -8,6 +8,7 @@ fastapi = {extras = ["all"], version = "*"}
 sqlalchemy = "*"
 alembic = "*"
 asyncpg = "*"
+passlib = "*"
 
 [dev-packages]
 
