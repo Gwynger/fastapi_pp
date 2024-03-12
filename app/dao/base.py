@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import select, insert
 from app.database import async_session_maker
 
 
@@ -16,16 +16,24 @@ class BaseDAO:
 
 
     @classmethod
-    async def find_one_or_none(cls, **kwargs):
+    async def find_one_or_none(cls, **filter_by):
         async with async_session_maker() as session:
-            query = select(cls.model).filter_by(**kwargs)
+            query = select(cls.model).filter_by(**filter_by)
             result = await session.execute(query)
             return result.scalar_one_or_none()
 
 
     @classmethod     # упрощает синтаксис определяя принадлежность классу в целом
-    async def find_all(cls, **kwargs):
+    async def find_all(cls, **filter_by):
         async with async_session_maker() as session:
-            query = select(cls.model).filter_by(**kwargs) # фильтры для запроса
+            query = select(cls.model).filter_by(**filter_by) # фильтры для запроса
             result = await session.execute(query)
             return result.mappings().all()
+        
+
+    @classmethod
+    async def add(cls, **data):
+        async with async_session_maker() as session:
+            query = insert(cls.model).values(**data)
+            await session.execute(query)
+            await session.commit()
