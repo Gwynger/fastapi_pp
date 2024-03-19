@@ -1,4 +1,4 @@
-from fastapi import HTTPException, Request, status
+from fastapi import Depends, HTTPException, Request, status
 
 
 def get_token(request: Request):
@@ -7,5 +7,5 @@ def get_token(request: Request):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED) 
     return token
 
-def get_current_user(token):
+def get_current_user(token: str = Depends(get_token)):
     pass
