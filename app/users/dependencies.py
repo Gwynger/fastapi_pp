@@ -1,4 +1,6 @@
 from fastapi import Depends, HTTPException, Request, status
+from jose import jwt, JWTError
+from app.config import settings
 
 
 def get_token(request: Request):
@@ -8,4 +10,10 @@ def get_token(request: Request):
     return token
 
 def get_current_user(token: str = Depends(get_token)):
-    pass
+    try:
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, settings.ALGORITHM 
+        )
+    except JWTError:
+        HTTPException(status_code=status.HTTP_401_UNAUTHORIZED)
+    expire: str = payload.get("exp")

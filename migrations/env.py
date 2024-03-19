@@ -19,7 +19,7 @@ sys.path.insert(0, dirname(dirname(abspath(__file__))))
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option('sqlalchemy.url', f'{settings.DATABASE_URL}?async_fallback=True')
+config.set_main_option("sqlalchemy.url", f"{settings.DATABASE_URL}?async_fallback=True")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
@@ -39,7 +39,7 @@ target_metadata = Base.metadata
 
 
 def run_migrations_offline() -> None:
-    """Run migrations in 'offline' mode.
+    """Run migrations in "offline" mode.
 
     This configures the context with just a URL
     and not an Engine, though an Engine is acceptable

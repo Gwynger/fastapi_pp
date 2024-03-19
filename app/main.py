@@ -26,7 +26,7 @@ class HotelsSearchArgs:
         self.stars = stars
 
 
-@app.get('/hotels')
+@app.get("/hotels")
 def get_hotels(
     search_args: HotelsSearchArgs = Depends()
 ):
@@ -39,6 +39,6 @@ class SBooking(BaseModel):
     date_to: date
 
 
-@app.post('/bookings')
+@app.post("/bookings")
 def add_booking(booking: SBooking):
     pass
