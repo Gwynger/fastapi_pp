@@ -15,7 +15,7 @@ async def get_hotels_by_location_and_time(
     date_from: date = Query(..., description=f"Например, {datetime.now().date()}"),
     date_to: date = Query(..., description=f"Например, {datetime.now().date()}"), 
 ) -> List[SHotelInfo]:
-    hotels = await HotelDAO.search_for_hotels(location, date_from, date_to)
+    hotels = await HotelDAO.find_all(location, date_from, date_to)
     return hotels
 
 
@@ -25,5 +25,5 @@ async def get_rooms_by_time(
     date_from: date = Query(..., description=f"Например, {datetime.now().date()}"),
     date_to: date = Query(..., description=f"Например, {datetime.now().date()}"), 
 ) -> List[SHotel]:
-    rooms = await HotelDAO.search_for_rooms(hotel_id, date_from, date_to)
+    rooms = await HotelDAO.find_all(hotel_id, date_from, date_to)
     return rooms

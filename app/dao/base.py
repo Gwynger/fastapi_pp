@@ -1,4 +1,4 @@
-from sqlalchemy import select, insert
+from sqlalchemy import delete, select, insert
 from app.database import async_session_maker
 
 
@@ -12,7 +12,7 @@ class BaseDAO:
         async with async_session_maker() as session:
             query = select(cls.model).filter_by(id=model_id)
             result = await session.execute(query)
-            return result.scalar_one_or_none()
+            return result.mappings().one_or_none()
 
 
     @classmethod
@@ -20,7 +20,7 @@ class BaseDAO:
         async with async_session_maker() as session:
             query = select(cls.model).filter_by(**filter_by)
             result = await session.execute(query)
-            return result.scalar_one_or_none()
+            return result.mappings().one_or_none()
 
 
     @classmethod     # упрощает синтаксис определяя принадлежность классу в целом
@@ -35,5 +35,14 @@ class BaseDAO:
     async def add(cls, **data):
         async with async_session_maker() as session:
             query = insert(cls.model).values(**data)
+            result = await session.execute(query)
+            await session.commit()
+            return result.mappings().first()
+
+
+    @classmethod
+    async def delete(cls, **filter_by):
+        async with async_session_maker() as session:
+            query = delete(cls.model).filter_by(**filter_by)
             await session.execute(query)
             await session.commit()
