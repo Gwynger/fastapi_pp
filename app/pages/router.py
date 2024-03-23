@@ -14,4 +14,7 @@ async def get_hotels_page(
     request: Request,  # в любом эндпоинте Jinja мы должны принимать request
     hotels = Depends(get_hotels_by_location_and_time)
 ):
-    return templates.TemplateResponse(name="hotels.html", context={"request": request})
+    return templates.TemplateResponse(
+        name="hotels.html", 
+        context={"request": request, "hotels": hotels}
+        )

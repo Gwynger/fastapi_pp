@@ -6,6 +6,13 @@
     <title>Reservation</title>
 </head>
 <body>
-    Hello, Booking!
+    <div>
+        {% for hotel in hotels %}
+        <div>
+            <h1>{{hotel.name}}</h1>
+            <h4>{{hotel.location}}</h4>
+        </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
