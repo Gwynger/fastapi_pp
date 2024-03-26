@@ -10,6 +10,7 @@ alembic = "*"
 asyncpg = "*"
 passlib = "*"
 python-jose = "*"
+fastapi-cache2 = {extras = ["redis"], version = "*"}
 
 [dev-packages]
 
