@@ -11,6 +11,9 @@ asyncpg = "*"
 passlib = "*"
 python-jose = "*"
 fastapi-cache2 = {extras = ["redis"], version = "*"}
+celery = "*"
+flower = "*"
+pillow = "*"
 
 [dev-packages]
 
