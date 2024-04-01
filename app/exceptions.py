@@ -42,3 +42,7 @@ class UserIsNotPresentException(BookingException):
 class RoomCannotBeBooked(BookingException):
     status_code = status.HTTP_409_CONFLICT
     detail = "There are no rooms left"
+
+class CannotAddDataToDatabase(BookingException):
+    status_code=status.HTTP_500_INTERNAL_SERVER_ERROR
+    detail="Failed to add a record"
