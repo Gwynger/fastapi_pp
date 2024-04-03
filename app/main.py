@@ -1,19 +1,23 @@
 from fastapi import FastAPI, Query, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi_cache import FastAPICache
+from fastapi_cache.backends.redis import RedisBackend
+from fastapi_cache.decorator import cache
+
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel
+from sqladmin import Admin, ModelView
 
 from app.bookings.router import router as router_bookings
+from app.users.models import Users
 from app.users.router import router as router_auth
 from app.hotels.router import router as router_hotels
 from app.pages.router import router as router_pages
 from app.images.router import router as router_images
+from app.database import engine
 
-from fastapi_cache import FastAPICache
-from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
 
 from redis import asyncio as aioredis
 from app.config import settings
@@ -82,3 +86,17 @@ class SBooking(BaseModel):
 @app.post("/bookings")
 def add_booking(booking: SBooking):
     pass
+
+
+admin = Admin(app, engine)
+
+
+class UsersAdmin(ModelView, model=Users):
+    column_list = [Users.id, Users.email]
+    column_details_exclude_list = [Users.hashed_password]
+    can_delete = False
+    name = "User"
+    name_plural = "Users"
+    icon = "fa-solid fa-user"
+
+admin.add_view(UsersAdmin)
