@@ -8,10 +8,10 @@ from fastapi_cache.decorator import cache
 from typing import Optional
 from datetime import date
 from pydantic import BaseModel
-from sqladmin import Admin, ModelView
+from sqladmin import Admin
 
+from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
 from app.bookings.router import router as router_bookings
-from app.users.models import Users
 from app.users.router import router as router_auth
 from app.hotels.router import router as router_hotels
 from app.pages.router import router as router_pages
@@ -90,13 +90,7 @@ def add_booking(booking: SBooking):
 
 admin = Admin(app, engine)
 
-
-class UsersAdmin(ModelView, model=Users):
-    column_list = [Users.id, Users.email]
-    column_details_exclude_list = [Users.hashed_password]
-    can_delete = False
-    name = "User"
-    name_plural = "Users"
-    icon = "fa-solid fa-user"
-
 admin.add_view(UsersAdmin)
+admin.add_view(BookingsAdmin)
+admin.add_view(HotelsAdmin)
+admin.add_view(RoomsAdmin)
