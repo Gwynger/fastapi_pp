@@ -15,6 +15,7 @@ celery = "*"
 flower = "*"
 pillow = "*"
 sqladmin = "*"
+pytest = "*"
 
 [dev-packages]
 

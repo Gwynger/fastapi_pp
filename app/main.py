@@ -89,7 +89,7 @@ def add_booking(booking: SBooking):
     pass
 
 
-admin = Admin(app, engine, authentication_backend)
+admin = Admin(app, engine, authentication_backend=authentication_backend)
 
 admin.add_view(UsersAdmin)
 admin.add_view(BookingsAdmin)
