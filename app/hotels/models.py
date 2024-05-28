@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, JSON, String
+from sqlalchemy import Column, ForeignKey, Integer, JSON, String
 from app.database import Base
 from sqlalchemy.orm import relationship
 
@@ -17,3 +17,4 @@ class Hotels(Base):
 
     def __str__(self):
         return f"Hotel {self.name} {self.location[:30]}"
+    
