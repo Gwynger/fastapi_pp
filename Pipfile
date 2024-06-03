@@ -16,6 +16,7 @@ flower = "*"
 pillow = "*"
 sqladmin = "*"
 pytest = "*"
+pytest-asyncio = "*"
 
 [dev-packages]
 

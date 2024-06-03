@@ -1,5 +1,5 @@
 import asyncio
-import datetime
+from datetime import datetime
 import pytest
 from app.config import settings
 from app.database import Base, async_session_maker, engine
@@ -22,7 +22,7 @@ async def prepare_database():
         await conn.run_sync(Base.metadata.create_all)
 
     def open_mock_json(model:str):
-        with open(f"app/tests/mock_{model}.json", "r") as file:
+        with open(f"app/tests/mock_{model}.json", encoding="utf-8") as file:
             return json.load(file)
 
 
@@ -33,7 +33,11 @@ async def prepare_database():
 
     for booking in bookings:
         booking["date_from"] = datetime.strptime(booking["date_from"], "%Y-%m-%d")
-        booking["date_to"] = datetime.strptime(booking["date_to"], "%Y-%m-%d")    
+        booking["date_to"] = datetime.strptime(booking["date_to"], "%Y-%m-%d")   
+
+    for room in rooms:
+        if not room.get("description"):
+            room["description"] = "Описание отсутствует" 
 
     async with async_session_maker() as session:
         add_hotels = insert(Hotels).values(hotels)
@@ -52,7 +56,7 @@ async def prepare_database():
 @pytest.fixture(scope="session")
 def event_loop(request):
     """Create an instance of the default event loop for each test case"""
-    loop = asyncio.get_event_loop_policy().new_event_loop()
+    loop = asyncio.new_event_loop()
     yield loop
     loop.close()
 

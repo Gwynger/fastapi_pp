@@ -29,7 +29,7 @@
     {
         "hotel_id": 2,
         "name": "Номер на 3-х человек",
-        "description": null,
+        "description": "Супер!",
         "price": 4350,
         "services": [],
         "quantity": 8,
