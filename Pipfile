@@ -17,6 +17,7 @@ pillow = "*"
 sqladmin = "*"
 pytest = "*"
 pytest-asyncio = "*"
+httpx = "*"
 
 [dev-packages]
 
