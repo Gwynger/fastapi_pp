@@ -65,8 +65,21 @@ def event_loop(request):
 
 @pytest.fixture(scope="function")
 async def ac():
+    """Asynchronous client for testing endpoints"""
     async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
         yield ac
+
+
+@pytest.fixture(scope="session")
+async def authenticated_ac():
+    """Asynchronous authenticated client for endpoint testing"""
+    async with AsyncClient(app=fastapi_app, base_url="http://test") as ac:
+        assert ac.cookies("/auth/login", json={
+            "email": "test@test.com",
+            "password": "test",
+        })
+        assert ac.cookies["bookings_access_token"]
+        yield authenticated_ac
 
 
 @pytest.fixture(scope="function")
