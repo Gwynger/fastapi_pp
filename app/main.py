@@ -22,9 +22,17 @@ from app.admin.auth import authentication_backend
 
 from redis import asyncio as aioredis
 from app.config import settings
+import contextlib
 
 
-app = FastAPI()
+@contextlib.asynccontextmanager
+async def lifespan(app: FastAPI):
+    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}")
+    FastAPICache.init(RedisBackend(redis), prefix="cache")
+    yield
+    await redis.close()
+
+app = FastAPI(lifespan=lifespan)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
@@ -48,11 +56,6 @@ app.add_middleware(
                    "Access-Control-Allow-Origin", "Access-Authorization"],
 )
 
-
-@app.on_event("startup")
-async def startup():
-    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}")
-    FastAPICache.init(RedisBackend(redis), prefix="cache")
 
 
 class HotelsSearchArgs:

@@ -1,32 +1,19 @@
 import pytest
+from app.users.dao import UserDAO
 
-from httpx import AsyncClient
 
-@pytest.mark.parametrize("email, password, status_code", [
-    ("random@ns.com", "qwerty", 200),
-    ("random@ns.com", "qwErty", 409),
-    ("ram@ns.com", "qwasd", 200),
-    ("abce", "qwErty", 422),
+@pytest.mark.asyncio
+@pytest.mark.parametrize("user_id, email, exists", [
+    (1, "test@test.com", True),
+    (2, "gwyn@example.com", True),
+    (3, "any@example.com", False),
 ])
+async def test_find_user_by_id(user_id, email, exists):
+    user = await UserDAO.find_by_id(user_id)
 
-
-async def test_register_user(email, password, status_code, ac: AsyncClient):
-    response = await ac.post("/auth/register", json={
-        "email": email,
-        "password": password,
-    })
-
-    assert response.status_code == status_code
-
-@pytest.mark.parametrize("email, password, status_code", [
-    ("test@test.com", "test", 200),
-    ("gwyn@example.com", "programm3r", 200),
-    ("wrong@person.com", "wrong", 401)
-])
-async def test_login_user(email,password,status_code, ac: AsyncClient):
-    response = await ac.post("auth/login", json={
-        "email": email,
-        "password": password,
-    })
-
-    assert response.status_code == status_code
+    if exists:
+        assert user
+        assert user.id == user_id
+        assert user.email == email
+    else:
+        assert not user
