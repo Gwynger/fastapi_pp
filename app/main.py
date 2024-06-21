@@ -3,6 +3,7 @@ import time
 from datetime import date
 from typing import Optional
 
+import sentry_sdk
 from fastapi import Depends, FastAPI, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -32,6 +33,13 @@ async def lifespan(app: FastAPI):
     await redis.close()
 
 app = FastAPI(lifespan=lifespan)
+
+
+sentry_sdk.init(
+    dsn="https://d8e82ac8f46969eec51a8923172cb6f5@o4507469791035392.ingest.de.sentry.io/4507469802111056",
+    traces_sample_rate=1.0
+)
+
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
