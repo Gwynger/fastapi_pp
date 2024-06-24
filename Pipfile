@@ -23,6 +23,7 @@ flake8 = "*"
 isort = "*"
 python-json-logger = "*"
 sentry-sdk = {extras = ["fastapi"], version = "*"}
+fastapi-versioning = "*"
 
 [dev-packages]
 

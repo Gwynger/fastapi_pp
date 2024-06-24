@@ -12,6 +12,7 @@ from fastapi_cache.backends.redis import RedisBackend
 from pydantic import BaseModel
 from redis import asyncio as aioredis
 from sqladmin import Admin
+from fastapi_versioning import VersionedFastAPI
 
 from app.admin.auth import authentication_backend
 from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
@@ -105,6 +106,15 @@ admin.add_view(UsersAdmin)
 admin.add_view(BookingsAdmin)
 admin.add_view(HotelsAdmin)
 admin.add_view(RoomsAdmin)
+
+app = VersionedFastAPI(app,
+    version_format="{major}",
+    prefix_format="/v{major}",
+    description="Greet users with a nice message",
+    # middleware=[
+    #   Middleware(SessionMiddleware, secret_key="mysecretkey")],
+                       )
+
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 

@@ -2,6 +2,7 @@ from datetime import date
 
 from fastapi import APIRouter, BackgroundTasks, Depends
 from pydantic import parse_obj_as
+from fastapi_versioning import version
 
 from app.bookings.dao import BookingDAO
 from app.bookings.schemas import SBookingInfo, SNewBooking
@@ -16,11 +17,13 @@ router = APIRouter(
 
 
 @router.get("")
+@version(1)
 async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBookingInfo]:
     return await BookingDAO.find_all(user_id=user.id)
 
 
 @router.post("", status_code=201)
+@version(1)
 async def add_booking(
     booking: SNewBooking,
     background_tasks: BackgroundTasks,
@@ -39,6 +42,7 @@ async def add_booking(
 
 
 @router.delete("/{booking_id}")
+@version(1)
 async def remove_booking(
     booking_id: int,
     current_user: Users = Depends(get_current_user),
