@@ -23,7 +23,7 @@ async def get_bookings(user: Users = Depends(get_current_user)) -> list[SBooking
 
 
 @router.post("", status_code=201)
-@version(1)
+@version(2)
 async def add_booking(
     booking: SNewBooking,
     background_tasks: BackgroundTasks,

@@ -41,6 +41,13 @@ sentry_sdk.init(
     traces_sample_rate=1.0
 )
 
+app = VersionedFastAPI(app,
+    version_format="{major}",
+    prefix_format="/v{major}",
+    description="Greet users with a nice message",
+    # middleware=[
+    #   Middleware(SessionMiddleware, secret_key="mysecretkey")],
+)
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
@@ -63,7 +70,6 @@ app.add_middleware(
     allow_headers=["Content-Type", "Set-Cookie", "Access-Control-Allow-Headers", 
                    "Access-Control-Allow-Origin", "Access-Authorization"],
 )
-
 
 
 class HotelsSearchArgs:
@@ -106,15 +112,6 @@ admin.add_view(UsersAdmin)
 admin.add_view(BookingsAdmin)
 admin.add_view(HotelsAdmin)
 admin.add_view(RoomsAdmin)
-
-app = VersionedFastAPI(app,
-    version_format="{major}",
-    prefix_format="/v{major}",
-    description="Greet users with a nice message",
-    # middleware=[
-    #   Middleware(SessionMiddleware, secret_key="mysecretkey")],
-                       )
-
 
 app.mount("/static", StaticFiles(directory="app/static"), "static")
 
