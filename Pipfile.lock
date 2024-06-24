@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "34aa6a56c67bbb045de16d26031539654dd9e3fe91c4acb6a1de2b40f79cb6bc"
+            "sha256": "8e00d3e9eb42a179937aa31d467ad3f8eda110a6e4a792fdb949c3a408dc05e4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -515,6 +515,15 @@
             ],
             "markers": "python_version < '3.13' and platform_machine == 'aarch64' or (platform_machine == 'ppc64le' or (platform_machine == 'x86_64' or (platform_machine == 'amd64' or (platform_machine == 'AMD64' or (platform_machine == 'win32' or platform_machine == 'WIN32')))))",
             "version": "==3.0.3"
+        },
+        "gunicorn": {
+            "hashes": [
+                "sha256:350679f91b24062c86e386e198a15438d53a7a8207235a78ba1b53df4c4378d9",
+                "sha256:4a0b436239ff76fb33f11c07a16482c521a7e09c1ce3cc293c2330afe01bec63"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.7'",
+            "version": "==22.0.0"
         },
         "h11": {
             "hashes": [

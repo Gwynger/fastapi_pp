@@ -24,6 +24,7 @@ isort = "*"
 python-json-logger = "*"
 sentry-sdk = {extras = ["fastapi"], version = "*"}
 fastapi-versioning = "*"
+gunicorn = "*"
 
 [dev-packages]
 
