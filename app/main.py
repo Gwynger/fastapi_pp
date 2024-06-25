@@ -9,10 +9,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
+from fastapi_versioning import VersionedFastAPI
 from pydantic import BaseModel
 from redis import asyncio as aioredis
 from sqladmin import Admin
-from fastapi_versioning import VersionedFastAPI
+from prometheus_fastapi_instrumentator import Instrumentator
+
 
 from app.admin.auth import authentication_backend
 from app.admin.views import BookingsAdmin, HotelsAdmin, RoomsAdmin, UsersAdmin
@@ -23,6 +25,7 @@ from app.hotels.router import router as router_hotels
 from app.images.router import router as router_images
 from app.pages.router import router as router_pages
 from app.users.router import router as router_auth
+from app.prometheus.router import router as router_prom
 from app.logger import logger
 
 
@@ -56,6 +59,7 @@ app.include_router(router_hotels)
 app.include_router(router_bookings)
 app.include_router(router_pages)
 app.include_router(router_images)
+app.include_router(router_prom)
 
 
 origins = [
@@ -104,6 +108,13 @@ class SBooking(BaseModel):
 @app.post("/bookings")
 def add_booking(booking: SBooking):
     pass
+
+
+instrumentator = Instrumentator(
+    should_group_status_codes=False,
+    excluded_handlers=[".*admin.", "/metrics"],
+)
+instrumentator.instrument(app).expose(app)
 
 
 admin = Admin(app, engine, authentication_backend=authentication_backend)

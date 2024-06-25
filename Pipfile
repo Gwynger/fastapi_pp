@@ -25,6 +25,7 @@ python-json-logger = "*"
 sentry-sdk = {extras = ["fastapi"], version = "*"}
 fastapi-versioning = "*"
 gunicorn = "*"
+prometheus-fastapi-instrumentator = "*"
 
 [dev-packages]
 
